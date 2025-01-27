@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import SingleCard from "./components/SingleCard";
 const cardImages = [
-  { src: "/img/apple.png" },
-  { src: "/img/banana.png" },
-  { src: "/img/grapes.png" },
-  { src: "/img/guava.png" },
-  { src: "/img/orange.png" },
-  { src: "/img/plum.png" },
+  { src: "/img/apple.png", matched: false },
+  { src: "/img/banana.png", matched: false },
+  { src: "/img/grapes.png", matched: false },
+  { src: "/img/guava.png", matched: false },
+  { src: "/img/orange.png", matched: false },
+  { src: "/img/plum.png", matched: false },
 ];
 function App() {
   const [cards, setCards] = useState([]);
@@ -27,9 +27,32 @@ function App() {
   const handleChoice = (card) => {
     choiceOne ? setChioceTwo(card) : setChioceOne(card);
   };
+  useEffect(() => {
+    if (choiceOne && choiceTwo) {
+      if (choiceOne.src === choiceTwo.src) {
+        setCards((prevCards) => {
+          return prevCards.map((card) => {
+            if (card.src === choiceOne.src) {
+              return { ...card, matched: true };
+            } else {
+              return card;
+            }
+          });
+        });
+        resetTurn();
+      } else {
+        console.log("those cards do not match");
+        resetTurn();
+      }
+    }
+  }, [choiceOne, choiceTwo]);
+
+  console.log(cards);
+
   const resetTurn = () => {
     setChioceOne(null);
     setChioceTwo(null);
+    setTurns((prevTurns) => prevTurns + 1);
   };
   return (
     <div className="App">
@@ -41,6 +64,7 @@ function App() {
             key={card.id}
             card={card}
             handleChoice={handleChoice}
+            flipped={card === choiceOne || card === choiceTwo || card.matched}
           ></SingleCard>
         ))}
       </div>
