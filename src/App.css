@@ -17,8 +17,8 @@ button:hover {
   color: #fff;
 }
 .front-img {
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
 }
 .card-grid {
   margin-top: 40px;
@@ -27,7 +27,6 @@ button:hover {
   grid-gap: 20px;
 }
 .back-bg {
-  background: #fff;
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
 }
